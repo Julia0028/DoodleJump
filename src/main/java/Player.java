@@ -47,6 +47,9 @@ public class Player {
 
     public void move(Panel p) {
 
+        if (x > p.getWidth()) x = - playerWidth;
+        if (x < - playerWidth) x = p.getWidth() - playerWidth;
+
         if (y > p.getHeight() - playerHeight - 1) {
             y = p.getHeight() - playerWidth - 1;
             dy = gameDY;

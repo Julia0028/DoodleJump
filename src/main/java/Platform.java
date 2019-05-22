@@ -1,83 +1,70 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class Platform {
 
     private int x;
     private int y;
-    private int platformWeight = 300;
-    private int platformHeight = 35;
-    private int dy = 2;
-    private Platform[] platforms;
+    public static int platformWeight = 300;
+    public static int platformHeight = 35;
+    private int dy = 4;
 
     public int getPlatformX() {
         return x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getPlatformY() {
         return y;
     }
 
-    public int getPlatformHeight() {
-        return platformHeight;
+
+
+    public Platform() {
+        x = (int) (Math.random() * (Panel.wight - Platform.platformWeight));
+        y = Panel.height;
+        enemyOnPlatform();
     }
 
-    public int getPlatformWeight() {
-        return platformWeight;
+    public void enemyOnPlatform() {
+        Random r = new Random();
+        int rn = r.nextInt(5);
+        if (y < Panel.height / 2 && rn == 1)
+            Panel.enemies.add(new Enemy(x + platformWeight / 2 , y - 120 - 1));
     }
 
-    public Platform(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public Platform() {}
 
 
-    public Platform[] Platforms() {
-        int a = 4;
-        platforms = new Platform[4];
-        for (int i = 0; i < platforms.length; i++) {
-          //int x = (int) (Math.random() * (Panel.wight / 4 * 3 - Panel.wight / 4)) + Panel.wight / 4;
-            int x = (int) (Math.random() * (Panel.wight - platformWeight));
-            int y = (Panel.height / 5) * a;
-            platforms[i] = new Platform(x, y);
-            a--;
-        }
-        return platforms;
-    }
-
-    public void collision(Player player) {
-        double plX = player.getPlayerX();
-        double plY = player.getPlayerY();
-        double plH = player.getPlayerHeight();
-        double plW = player.getPlayerWidth();
-        if  (plY + plH > y && plY + plH < y + platformHeight && plX > x && plX < platformWeight + x) {
-            double newDy = player.getGameDY();
-            player.setPlayerY(y - plH);
-            player.setDy(newDy);
+    public void playerJump(Player player) {
+        int plX = player.getPlayerX();
+        int plY = player.getPlayerY();
+        int plH = player.getPlayerHeight();
+        if (plY + plH > y && plY + plH < y + platformHeight) {
+            if (plX > x && plX < x + platformWeight) {
+                double newDy = player.getGameDY();
+                player.setPlayerY(y - plH);
+                player.setDy(newDy);
+            }
         }
     }
 
-
-
-    public void update(Player player) {
+    public void update() {
         y += dy;
-        collision(player);
         if (y + platformHeight > Panel.height) {
-               x = (int) (Math.random() * (Panel.wight / 4 * 3 - Panel.wight / 4)) + Panel.wight / 4;
-                //platformY = (int) (Math.random() * (Panel.wight - platformWeight));
+                x = (int) (Math.random() * (Panel.wight - platformWeight));
                 y = 0 ;
+                enemyOnPlatform();
+
             }
         }
 
 
-
     public void draw(Graphics2D g) {
-        Image img = new ImageIcon("platform.png").getImage();
-        //Image img1 = img.getScaledInstance(platformWeight, platformHeight, Image.SCALE_SMOOTH);
-        //Image img2 = new ImageIcon(img1).getImage();
-
+        Image img = new ImageIcon("ImagePlay/platform.png").getImage();
         g.drawImage(img, x, y, platformWeight, platformHeight,  null);
 
     }

@@ -8,7 +8,7 @@ public class Platform {
     private int y;
     public static int platformWeight = 300;
     public static int platformHeight = 35;
-    private int dy = 4;
+    private int dy = 3;
 
     public int getPlatformX() {
         return x;
@@ -34,7 +34,7 @@ public class Platform {
         Random r = new Random();
         int rn = r.nextInt(5);
         if (y < Panel.height / 2 && rn == 1)
-            Panel.enemies.add(new Enemy(x + platformWeight / 2 , y - 120 - 1));
+            Panel.enemies.add(new Enemy(x + platformWeight / 2 , y - 140 - 1));
     }
 
 
@@ -43,8 +43,9 @@ public class Platform {
         int plX = player.getPlayerX();
         int plY = player.getPlayerY();
         int plH = player.getPlayerHeight();
+        int plW = player.getPlayerWidth();
         if (plY + plH > y && plY + plH < y + platformHeight) {
-            if (plX > x && plX < x + platformWeight) {
+            if (plX + plW > x && plX < x + platformWeight) {
                 double newDy = player.getGameDY();
                 player.setPlayerY(y - plH);
                 player.setDy(newDy);
@@ -64,7 +65,7 @@ public class Platform {
 
 
     public void draw(Graphics2D g) {
-        Image img = new ImageIcon("ImagePlay/platform.png").getImage();
+        Image img = new ImageIcon("ImagePlay/platform1.png").getImage();
         g.drawImage(img, x, y, platformWeight, platformHeight,  null);
 
     }

@@ -5,8 +5,8 @@ public class Bullet {
     private int x;
     private int y;
     private int dy = 10;
-    private int weight = 50;
-    private int hight = 50;
+    private int weight = 30;
+    private int hight = 30;
 
     public int getX(){
         return x;
@@ -31,7 +31,7 @@ public class Bullet {
     }
 
     public void draw(Graphics2D g) {
-        Image img = new ImageIcon("ImagePlay/fire.png").getImage();
+        Image img = new ImageIcon("ImagePlay/bull.png").getImage();
         g.drawImage(img, x, y, weight, hight,  null);
 
     }
